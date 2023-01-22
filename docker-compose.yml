@@ -1,0 +1,9 @@
+services:
+  library-db:
+    image: "mongo"
+    container_name: "library-server"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "library-dev-user"
+      MONGO_INITDB_ROOT_PASSWORD: "library-dev-passwd"
+    ports:
+      - 27017:27017
