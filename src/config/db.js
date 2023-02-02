@@ -6,4 +6,4 @@ const initDatabase = async () => {
   await mongoose.connect(MONGODB_URL);
 };
 
-export { initDatabase };
+export default initDatabase;
