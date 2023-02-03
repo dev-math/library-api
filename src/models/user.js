@@ -14,8 +14,20 @@ const userSchema = Schema({
   },
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-export default model('User', userSchema);
+userSchema.methods.toJSON = function () {
+  const user = this;
+
+  const userObj = user.toObject();
+
+  delete userObj._id;
+  delete userObj.__v;
+  delete userObj.password;
+
+  return userObj;
+};
+
+export default model("User", userSchema);
