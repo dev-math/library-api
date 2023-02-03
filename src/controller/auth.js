@@ -1,5 +1,5 @@
 import { compare, genSalt, hash } from "bcrypt";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import User from "../models/user";
 
 const createUser = async (req, res) => {
@@ -36,12 +36,13 @@ const checkUser = async (req, res) => {
     }
 
     const jwtSecretKey = "secretkey";
-    const token = jwt.sign({ _id: user._id.toString() }, jwtSecretKey);
+    const token = jwt.sign({ _id: user._id.toString() }, jwtSecretKey, {
+      expiresIn: 60,
+    });
     res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: `${error}` });
   }
 };
-
 
 export { createUser, checkUser };
