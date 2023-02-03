@@ -1,10 +1,15 @@
 import express from "express";
-import initDatabase from "./config/db.js";
+import initDatabase from "./config/db";
+import routes from './routes';
 
 initDatabase();
 
 const app = express();
 const PORT = 8080;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(routes);
 
 // BOOKS
 // GET /books - Retrieve a list of all books in the library
