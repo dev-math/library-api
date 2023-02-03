@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
     res.status(201).json({ user });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ erro: `${error}` });
+    res.status(400).json({ error: `${error}` });
   }
 };
 
@@ -36,7 +36,7 @@ const checkUser = async (req, res) => {
 
     res.send("logado");
   } catch (error) {
-    res.status(400).json({ erro: `${error}` });
+    res.status(400).json({ error: `${error}` });
   }
 };
 
@@ -45,8 +45,21 @@ const listUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).json({ users });
   } catch (error) {
-    res.status(400).json({ erro: `${error}` });
+    res.status(400).json({ error: `${error}` });
   }
 };
 
-export { createUser, checkUser, listUsers };
+const listUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user) {
+      res.status(404).json({ error: `User not found` });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400).json({ error: `${error}` });
+  }
+};
+
+export { createUser, checkUser, listUsers, listUser };

@@ -8,14 +8,12 @@ const router = Router();
 router.post('/users', createUser);
 router.post('/login', checkUser);
 
-router.get('/users', listUsers); // TODO: remove this route
-
-router.get('/users/:userid', listUsers);
 router.delete('/users/:userid');
 
-// DELETE: remove user
-// GET: /users/:userId list user
-// PUT: /users/:userId update user
+router.get('/users/:userid', listUsers);
+router.get('/users', listUsers); // TODO: remove this route
+
+router.put('/users/:userid');
 
 // GET: /users/:userId/booklists list booklists
 // POST: /users/:userId/booklists create booklist
