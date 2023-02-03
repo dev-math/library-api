@@ -51,7 +51,7 @@ const listUsers = async (req, res) => {
 
 const listUser = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ _id: req.params.userid });
     if (!user) {
       return res.status(404).json({ error: `User not found` });
     }
@@ -62,4 +62,17 @@ const listUser = async (req, res) => {
   }
 };
 
-export { createUser, checkUser, listUsers, listUser };
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findOneAndDelete({ _id: req.params.userid });
+    if (!user) {
+      return res.status(404).json({ error: `User not found` });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400).json({ error: `${error}` });
+  }
+};
+
+export { createUser, checkUser, listUsers, listUser, deleteUser };
