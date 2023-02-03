@@ -5,10 +5,13 @@ const router = Router();
 
 // GET: /me current user details
 
-router.post('/', createUser);
+router.post('/users', createUser);
 router.post('/login', checkUser);
 
-router.get('/', listUsers); // TODO: remove this route
+router.get('/users', listUsers); // TODO: remove this route
+
+router.get('/users/:userid', listUsers);
+router.delete('/users/:userid');
 
 // DELETE: remove user
 // GET: /users/:userId list user
