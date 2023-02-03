@@ -12,6 +12,10 @@ const userSchema = Schema({
     minLength: 8,
     required: true,
   },
+  name: {
+    type: String,
+    required: true
+  }
 });
 
 export default model('User', userSchema);

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, checkUser, listUsers, listUser, deleteUser } from '../controller/user';
+import { createUser, checkUser, listUsers, listUser, deleteUser, updateUser } from '../controller/user';
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.delete('/users/:userid', deleteUser);
 router.get('/users/:userid', listUser);
 router.get('/users', listUsers); // TODO: remove this route
 
-router.put('/users/:userid');
+router.patch('/users/:userid', updateUser);
 
 // GET: /users/:userId/booklists list booklists
 // POST: /users/:userId/booklists create booklist
