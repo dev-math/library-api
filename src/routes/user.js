@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser, checkUser, listUsers } from '../controller/user';
+import { createUser, checkUser, listUsers, listUser } from '../controller/user';
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.post('/login', checkUser);
 
 router.delete('/users/:userid');
 
-router.get('/users/:userid', listUsers);
+router.get('/users/:userid', listUser);
 router.get('/users', listUsers); // TODO: remove this route
 
 router.put('/users/:userid');
