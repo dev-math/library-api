@@ -1,12 +1,18 @@
 import { Router } from "express";
-import { } from "../controller/booklist";
+import {
+  addBooklistItem,
+  getBooklist,
+  getBooklistItems,
+  removeBooklistItem,
+  updateBooklist,
+} from "../controller/booklist";
 
 const router = Router();
 
-router.get("/booklists/:booklistId"); // get playlist details
-router.put("/booklists/:booklistId"); // change playlist name
-router.get("/booklists/:booklistId/books"); // get books
-router.post("/booklists/:booklistId/books"); // add book
-router.delete("/booklists/:booklistId/books"); // remove book
+router.get("/booklists/:booklistId", getBooklist);
+router.put("/booklists/:booklistId", updateBooklist);
+router.get("/booklists/:booklistId/books", getBooklistItems);
+router.post("/booklists/:booklistId/books", addBooklistItem);
+router.delete("/booklists/:booklistId/books", removeBooklistItem);
 
 export default router;
