@@ -25,7 +25,7 @@ const createBook = async (req, res) => {
   try {
     const book = new Book(req.body);
     await book.save();
-    res.status(201).json({ user });
+    res.status(201).json({ book });
   } catch (error) {
     res.status(400).json({ error: `${error}` });
   }
