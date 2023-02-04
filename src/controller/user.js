@@ -11,7 +11,9 @@ const listUsers = async (req, res) => {
 
 const listUser = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.userid });
+    const id = req.params.userId || req.userId;
+
+    const user = await User.findOne({ _id: id });
     if (!user) {
       return res.status(404).json({ error: `User not found` });
     }
