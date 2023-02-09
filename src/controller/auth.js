@@ -1,4 +1,4 @@
-import { compare, genSalt, hash } from "bcrypt";
+import { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
 
@@ -10,10 +10,6 @@ const createUser = async (req, res) => {
     }
 
     const user = new User(req.body);
-
-    const saltRounds = 10;
-    const salt = await genSalt(saltRounds);
-    user.password = await hash(user.password, salt);
 
     await user.save();
     res.status(201).json({ user });

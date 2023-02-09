@@ -1,3 +1,4 @@
+import { genSalt, hash } from "bcrypt";
 import { Schema, model } from "mongoose";
 
 const userSchema = Schema({
@@ -25,7 +26,19 @@ const userSchema = Schema({
   ],
 });
 
-userSchema.methods.toJSON = function () {
+userSchema.pre("save", async function(next) {
+  const user = this;
+
+  if (user.isModified('password')) {
+    const saltRounds = 10;
+    const salt = await genSalt(saltRounds);
+    user.password = await hash(user.password, salt);
+  }
+
+  next();
+});
+
+userSchema.methods.toJSON = function() {
   const user = this;
 
   const userObj = user.toObject();
