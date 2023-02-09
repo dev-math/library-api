@@ -24,7 +24,7 @@ const updateBooklist = async (req, res) => {
 
   try {
     const booklist = await Booklist.findOne({
-      _id: req.params.bookId,
+      _id: req.params.booklistId,
       owner: req.userId,
     });
     if (!booklist) {
