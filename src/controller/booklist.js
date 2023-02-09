@@ -114,6 +114,7 @@ const removeBooklistItem = async (req, res) => {
 
     booklist.books.filter((book) => !booksToRemove.contains(book._id));
 
+    booklist.save();
     res.status(200).json(booklist);
   } catch (error) {
     res.status(400).json({ error: `${error}` });
