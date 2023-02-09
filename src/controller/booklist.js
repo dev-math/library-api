@@ -93,6 +93,7 @@ const addBooklistItem = async (req, res) => {
       booklist.push(book);
     });
 
+    booklist.save();
     res.status(200).json(booklist);
   } catch (error) {
     res.status(400).json({ error: `${error}` });
