@@ -16,6 +16,13 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  booklists: [
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Booklist",
+    },
+  ],
 });
 
 userSchema.methods.toJSON = function () {
