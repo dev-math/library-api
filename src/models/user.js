@@ -50,4 +50,10 @@ userSchema.methods.toJSON = function() {
   return userObj;
 };
 
+userSchema.virtual('booklists', {
+  ref: 'Booklist',
+  localField: '_id',
+  foreignField: 'owner'
+});
+
 export default model("User", userSchema);
