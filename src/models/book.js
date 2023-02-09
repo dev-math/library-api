@@ -13,10 +13,6 @@ const bookSchema = new Schema({
     type: Number,
     required: true,
   },
-  completed: {
-    type: Boolean,
-    default: true
-  },
 });
 
 export default model("Book", bookSchema);
