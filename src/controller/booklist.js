@@ -66,7 +66,7 @@ const getBooklistItems = async (req, res) => {
   try {
     const booklist = await Booklist.findOne({
       _id: req.params.booklistId,
-    });
+    }).populate("books");
     if (!booklist) {
       return res.status(404).json({ error: "Booklist not found" });
     }
@@ -90,10 +90,12 @@ const addBooklistItem = async (req, res) => {
     const books = req.body.books;
     books.forEach(async (bookId) => {
       const book = await Book.findOne({ _id: bookId });
-      booklist.push(book);
+      if (book) {
+        booklist.books.push(bookId);
+      }
     });
 
-    booklist.save();
+    await booklist.save();
     res.status(200).json(booklist);
   } catch (error) {
     res.status(400).json({ error: `${error}` });
@@ -114,7 +116,7 @@ const removeBooklistItem = async (req, res) => {
 
     booklist.books.filter((book) => !booksToRemove.contains(book._id));
 
-    booklist.save();
+    await booklist.save();
     res.status(200).json(booklist);
   } catch (error) {
     res.status(400).json({ error: `${error}` });
