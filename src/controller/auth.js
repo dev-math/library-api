@@ -32,7 +32,7 @@ const checkUser = async (req, res) => {
 
     const jwtSecretKey = "secretkey";
     const token = jwt.sign({ _id: user._id.toString() }, jwtSecretKey, {
-      expiresIn: 60,
+      expiresIn: 86400, // 1 day
     });
     res.status(200).json({ token });
   } catch (error) {
