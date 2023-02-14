@@ -10,26 +10,14 @@ const userSchema = Schema({
   },
   password: {
     type: String,
-    minLength: 8,
     required: true,
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  booklists: [
-    {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Booklist",
-    },
-  ],
 });
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
   const user = this;
 
-  if (user.isModified('password')) {
+  if (user.isModified("password")) {
     const saltRounds = 10;
     const salt = await genSalt(saltRounds);
     user.password = await hash(user.password, salt);
@@ -38,7 +26,7 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   const user = this;
 
   const userObj = user.toObject();
@@ -50,10 +38,10 @@ userSchema.methods.toJSON = function() {
   return userObj;
 };
 
-userSchema.virtual('booklists', {
-  ref: 'Booklist',
-  localField: '_id',
-  foreignField: 'owner'
+userSchema.virtual("booklists", {
+  ref: "Booklist",
+  localField: "_id",
+  foreignField: "owner",
 });
 
 export default model("User", userSchema);
