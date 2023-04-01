@@ -1,16 +1,21 @@
 import { Schema, model } from "mongoose";
 
 const bookSchema = new Schema({
-  title: {
+  key: {
     type: String,
+    unique: true,
     required: true,
   },
-  author: {
+  title: {
     type: String,
     required: true,
   },
   pages: {
     type: Number,
+    required: true,
+  },
+  cover_i: {
+    type: String,
     required: true,
   },
 });

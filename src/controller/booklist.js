@@ -42,8 +42,7 @@ const updateBooklist = async (req, res) => {
 
 const getUserBooklists = async (req, res) => {
   try {
-    const userId = req.params.userId || req.userId;
-    const booklists = await Booklist.find({ owner: userId });
+    const booklists = await Booklist.find({ owner: req.userId });
     res.status(200).json({ booklists });
   } catch (error) {
     res.status(400).json({ error: `${error}` });

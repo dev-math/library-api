@@ -4,3 +4,9 @@ services:
     container_name: "library-db-server"
     ports:
       - 27017:27017
+    networks:
+      - mongo-compose-network
+
+networks:
+  mongo-compose-network:
+    driver: bridge

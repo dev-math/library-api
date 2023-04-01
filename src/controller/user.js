@@ -1,19 +1,48 @@
 import User from "../models/user";
+import { compare } from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const listUsers = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json({ users });
+    const isSetted = await User.findOne({ email: req.body.email });
+    if (isSetted) {
+      throw new Error("Email already exists");
+    }
+
+    const user = new User(req.body);
+
+    await user.save();
+    res.status(201).json({ user });
   } catch (error) {
     res.status(400).json({ error: `${error}` });
   }
 };
 
-const listUser = async (req, res) => {
+export const checkUser = async (req, res) => {
   try {
-    const id = req.params.userId || req.userId;
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      throw new Error("Login incorrect");
+    }
 
-    const user = await User.findOne({ _id: id });
+    const checkPassword = await compare(req.body.password, user.password);
+    if (!checkPassword) {
+      throw new Error("Login incorrect");
+    }
+
+    const jwtSecretKey = "secretkey";
+    const token = jwt.sign({ _id: user._id.toString() }, jwtSecretKey, {
+      expiresIn: 86400, // 1 day
+    });
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(400).json({ error: `${error}` });
+  }
+};
+
+export const listUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.userId });
     if (!user) {
       return res.status(404).json({ error: `User not found` });
     }
@@ -24,9 +53,9 @@ const listUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findOneAndDelete({ _id: req.params.userid });
+    const user = await User.findOneAndDelete({ _id: req.userId });
     if (!user) {
       return res.status(404).json({ error: `User not found` });
     }
@@ -37,7 +66,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["email", "password"];
   const isValidOperation = updates.every((update) =>
@@ -49,7 +78,7 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ _id: req.params.userid });
+    const user = await User.findOne({ _id: req.userId });
     if (!user) {
       return res.status(404).json({ error: `User not found` });
     }
@@ -62,5 +91,3 @@ const updateUser = async (req, res) => {
     res.status(400).json({ error: `${error}` });
   }
 };
-
-export { listUsers, listUser, deleteUser, updateUser };

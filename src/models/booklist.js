@@ -7,7 +7,7 @@ const bookListSchema = new Schema({
   },
   books: [
     {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
       ref: "Book",
     },

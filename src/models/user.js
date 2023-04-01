@@ -1,5 +1,6 @@
 import { genSalt, hash } from "bcrypt";
 import { Schema, model } from "mongoose";
+import Booklist from "./booklist";
 
 const userSchema = Schema({
   email: {
@@ -16,6 +17,11 @@ const userSchema = Schema({
 
 userSchema.pre("save", async function (next) {
   const user = this;
+
+  if (user.isNew) {
+    const userLibrary = new Booklist({ name: "My Library", owner: user._id });
+    await userLibrary.save();
+  }
 
   if (user.isModified("password")) {
     const saltRounds = 10;

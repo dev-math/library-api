@@ -1,25 +1,16 @@
 import { Router } from "express";
-import {
-  listUsers,
-  listUser,
-  deleteUser,
-  updateUser,
-} from "../controller/user";
+import { listUser, deleteUser, updateUser } from "../controller/user";
+import { saveBookToUserLibrary, removeUserSavedBook } from "../controller/book";
 import { createBooklist, getUserBooklists } from "../controller/booklist";
 
 const router = Router();
 
 router.get("/me", listUser);
+router.delete("/me", deleteUser);
+router.patch("/me", updateUser);
+router.put("/me/books", saveBookToUserLibrary);
+router.delete("/me/books", removeUserSavedBook);
 router.get("/me/booklists", getUserBooklists);
-
-router.get("/users/:userid/booklists", getUserBooklists);
-router.post("/users/:userid/booklists", createBooklist);
-
-router.delete("/users/:userid", deleteUser);
-
-router.get("/users/:userid", listUser);
-router.get("/users", listUsers); // TODO: remove this route
-
-router.patch("/users/:userid", updateUser);
+router.post("/me/booklists", createBooklist);
 
 export default router;
